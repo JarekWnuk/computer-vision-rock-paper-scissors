@@ -20,11 +20,11 @@ def get_user_choice():
 def get_winner(computer_choice, user_choice):
     if computer_choice != user_choice:
         if computer_choice == "Rock" and user_choice != "Paper":
-            print("You lost.")
+            print("You lost")
         elif computer_choice == "Paper" and user_choice != "Scissors":
-            print("You lost.")
+            print("You lost")
         elif computer_choice == "Scissors" and user_choice != "Rock":
-            print("You lost.")
+            print("You lost")
         else:
             print("You won!")
     else:
