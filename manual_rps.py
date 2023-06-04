@@ -17,5 +17,20 @@ def get_user_choice():
             continue
     return choice.capitalize()
 
-get_computer_choice()
-get_user_choice()
+def get_winner(computer_choice, user_choice):
+
+    if computer_choice != user_choice:
+        if computer_choice == "Rock" and user_choice != "Paper":
+            print(f"You lost. {computer_choice} beats {user_choice}")
+        elif computer_choice == "Paper" and user_choice != "Scissors":
+            print(f"You lost. {computer_choice} beats {user_choice}")
+        elif computer_choice == "Scissors" and user_choice != "Rock":
+            print(f"You lost. {computer_choice} beats {user_choice}")
+        else:
+            print(f"You won! {user_choice} beats {computer_choice}")
+    else:
+        print("It is a tie!")
+
+computer_choice = get_computer_choice()
+user_choice = get_user_choice()
+get_winner(computer_choice, user_choice)
