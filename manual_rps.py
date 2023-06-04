@@ -17,8 +17,8 @@ def get_user_choice():
             continue
     return choice.capitalize()
 
+# compares computer_choice and user_choice and prints the outcome, both arguments are required
 def get_winner(computer_choice, user_choice):
-
     if computer_choice != user_choice:
         if computer_choice == "Rock" and user_choice != "Paper":
             print(f"You lost. {computer_choice} beats {user_choice}")
@@ -31,6 +31,10 @@ def get_winner(computer_choice, user_choice):
     else:
         print("It is a tie!")
 
-computer_choice = get_computer_choice()
-user_choice = get_user_choice()
-get_winner(computer_choice, user_choice)
+# wraps all game functions into one that allows to play the game
+def play():
+    computer_choice = get_computer_choice()
+    user_choice = get_user_choice()
+    get_winner(computer_choice, user_choice)
+        
+play()
