@@ -18,12 +18,19 @@ The libraries installed include:
 - tensorflow # there are issues when running this on a older computers
 - ipykernel
 
+The file requirements.txt contains all the required libraries. These can be installed by running the following command:
+pip install requirements.txt
+
 File RPS-Template.py is used to run the model with the use of the camera. Output is displayed in a NumPy array format, example:
 [[0.8, 0.1, 0.05, 0.05]]
 Each number from the array corresponds to a probability (between 0 and 1) that an input image shows: rock, paper, scissors or nothing respectively.
 
+# Conclusion
+The model responds to changes in image input. It is challenging to track if the predicions are correct looking at the output to the terminal. The numbers are changing, but they are displayed in a format that is 
+difficult to interpret at first. This model needs to be combined with code that will help make it more clear.
+
 # Milestone 4
-The game logic is created in manual_rps.py. This file does not make use of the pre-trained model, only manual input.
+The game logic is created in manual_rps.py. This file does not make use of the pre-trained deep learning model, only manual input.
 Functions created include:
 
 get_computer_choice() - uses Python's random module to choose the computer's hand
@@ -33,3 +40,6 @@ get_user_choice() - asks the user to input their choice and validates it
 get_winner() - takes two required arguments; computer choice and user choice, compares the hands and announces the winner (or a tie)
 
 play() - this function encapsulates all the ones described above to simplify game initiation
+
+# Conclusion
+Game works correctly with manual input. What remains is to connect it with the deep learning model.
