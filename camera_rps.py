@@ -15,12 +15,13 @@ def get_prdiction():
         data[0] = normalized_image
         prediction = model.predict(data)
         cv2.imshow('frame', frame)
+        index = np.argmax(prediction)
         # Press q to close the window
-        if cv2.waitKey(1) & 0xFF == ord('q') or np.argmax(prediction) !=3:
-            index = np.argmax(prediction)
-
+        if cv2.waitKey(1) & 0xFF == ord('q') or np.argmax(prediction) !=3 and prediction[0][index] > 0.8 :
+            class_name = class_names[index]
+            confidence_score = prediction[0][index]
+            print(class_name)
+            print(confidence_score)
             break
-        print(class_name = class_names[index])
-        print(confidence_score = prediction[0][index])
 
 get_prdiction()
