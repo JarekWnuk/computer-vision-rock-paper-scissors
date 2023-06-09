@@ -4,6 +4,7 @@ import numpy as np
 model = load_model('keras_model.h5')
 cap = cv2.VideoCapture(0)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+class_names = open("labels.txt", "r").readlines()
 
 def get_prdiction():
     while True: 
@@ -16,13 +17,10 @@ def get_prdiction():
         cv2.imshow('frame', frame)
         # Press q to close the window
         if cv2.waitKey(1) & 0xFF == ord('q') or np.argmax(prediction) !=3:
-            answer = np.argmax(prediction)
+            index = np.argmax(prediction)
+
             break
-    if answer == 0:
-        print("Rock")
-    elif answer == 1:
-        print("Paper")
-    else:
-        print("Scissors")
-        
+        print(class_name = class_names[index])
+        print(confidence_score = prediction[0][index])
+
 get_prdiction()
