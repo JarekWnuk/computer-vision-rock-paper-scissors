@@ -7,7 +7,7 @@ import random
 model = load_model('keras_model.h5')
 cap = cv2.VideoCapture(0)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-class_names = open("labels.txt", "r").readlines()
+class_names = open("labels.txt", "r").read().splitlines()
 
 # counts down from 5 to 1 with each number printed
 def countdown():
@@ -51,22 +51,23 @@ def get_prediction():
         # Press q to close the window
         if cv2.waitKey(1) & 0xFF == ord('q') or index !=3 and prediction[0][index] > 0.8 :
             class_name = class_names[index]
+            print(type(class_name))
             break
     return class_name
 
 # compares computer_choice and user_choice and prints the outcome, both arguments are required
 def get_winner(computer_choice, user_choice_prediction):
     if computer_choice != user_choice_prediction:
-        if computer_choice == "Rock" and user_choice_prediction != "Paper" or "Rock":
+        if computer_choice == "Rock" and user_choice_prediction != "Paper":
             print(f"You lost. Rock beats {user_choice_prediction}")
-        elif computer_choice == "Paper" and user_choice_prediction != "Scissors" or "Paper":
+        elif computer_choice == "Paper" and user_choice_prediction != "Scissors":
             print(f"You lost. Paper beats {user_choice_prediction}")
-        elif computer_choice == "Scissors" and user_choice_prediction != "Rock" or "Scissors":
+        elif computer_choice == "Scissors" and user_choice_prediction != "Rock":
             print(f"You lost. Scissors beats {user_choice_prediction}")
         else:
-            print(f"You won!")
+            print(f"You won! {user_choice_prediction} beats {computer_choice}")
     else:
-        print(f"It is a tie! Both hands are {user_choice_prediction}")
+            print(f"It is a tie! Both hands show {user_choice_prediction}")
 
 # wraps all game functions into one that allows to play the game
 def play():
