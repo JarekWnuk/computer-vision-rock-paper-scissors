@@ -2,12 +2,14 @@ import cv2
 import time
 from keras.models import load_model
 import numpy as np
+import random
 
 model = load_model('keras_model.h5')
 cap = cv2.VideoCapture(0)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 class_names = open("labels.txt", "r").readlines()
 
+# counts down from 5 to 1 with each number printed
 def countdown():
     start = time.time()
     print("Get ready!")
@@ -31,6 +33,11 @@ def countdown():
             print("Show your hand!")
             break  
 
+# gets random choice for computer
+def get_computer_choice():
+    choice_list =["Rock", "Paper", "Scissors"]
+    return random.choice(choice_list)
+
 def get_prediction():
     while True: 
         ret, frame = cap.read()
@@ -47,6 +54,25 @@ def get_prediction():
             break
     return class_name
 
-countdown()
-user_hand = get_prediction()
-print(f"You chose {user_hand}")
+# compares computer_choice and user_choice and prints the outcome, both arguments are required
+def get_winner(computer_choice, user_choice_prediction):
+    if computer_choice != user_choice_prediction:
+        if computer_choice == "Rock" and user_choice_prediction != "Paper" or "Rock":
+            print(f"You lost. Rock beats {user_choice_prediction}")
+        elif computer_choice == "Paper" and user_choice_prediction != "Scissors" or "Paper":
+            print(f"You lost. Paper beats {user_choice_prediction}")
+        elif computer_choice == "Scissors" and user_choice_prediction != "Rock" or "Scissors":
+            print(f"You lost. Scissors beats {user_choice_prediction}")
+        else:
+            print(f"You won!")
+    else:
+        print(f"It is a tie! Both hands are {user_choice_prediction}")
+
+# wraps all game functions into one that allows to play the game
+def play():
+    countdown()
+    user_choice_prediction = get_prediction()
+    computer_choice = get_computer_choice()
+    get_winner(computer_choice, user_choice_prediction)
+
+play()
