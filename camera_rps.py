@@ -10,6 +10,7 @@ class_names = open("labels.txt", "r").readlines()
 
 def countdown():
     start = time.time()
+    print("Get ready!")
     print(5)
     time_to_print = [4, 3, 2, 1]
     while True:
@@ -41,10 +42,11 @@ def get_prediction():
         cv2.imshow('frame', frame)
         index = np.argmax(prediction)
         # Press q to close the window
-        if cv2.waitKey(1) & 0xFF == ord('q') or np.argmax(prediction) !=3 and prediction[0][index] > 0.8 :
+        if cv2.waitKey(1) & 0xFF == ord('q') or index !=3 and prediction[0][index] > 0.8 :
             class_name = class_names[index]
             break
     return class_name
 
-countdown_five()
-#get_prediction()
+countdown()
+user_hand = get_prediction()
+print(f"You chose {user_hand}")
