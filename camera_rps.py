@@ -51,29 +51,50 @@ def get_prediction():
         # Press q to close the window
         if cv2.waitKey(1) & 0xFF == ord('q') or index !=3 and prediction[0][index] > 0.8 :
             class_name = class_names[index]
-            print(type(class_name))
             break
     return class_name
 
 # compares computer_choice and user_choice and prints the outcome, both arguments are required
 def get_winner(computer_choice, user_choice_prediction):
+    winner = ""
     if computer_choice != user_choice_prediction:
         if computer_choice == "Rock" and user_choice_prediction != "Paper":
             print(f"You lost. Rock beats {user_choice_prediction}")
+            winner = "computer"
+            return winner
         elif computer_choice == "Paper" and user_choice_prediction != "Scissors":
             print(f"You lost. Paper beats {user_choice_prediction}")
+            winner = "computer"
+            return winner
         elif computer_choice == "Scissors" and user_choice_prediction != "Rock":
             print(f"You lost. Scissors beats {user_choice_prediction}")
+            winner = "computer"
+            return winner
         else:
             print(f"You won! {user_choice_prediction} beats {computer_choice}")
+            winner = "user"
+            return winner
     else:
             print(f"It is a tie! Both hands show {user_choice_prediction}")
+            winner = "nobody"
+            return winner
 
 # wraps all game functions into one that allows to play the game
 def play():
-    countdown()
-    user_choice_prediction = get_prediction()
-    computer_choice = get_computer_choice()
-    get_winner(computer_choice, user_choice_prediction)
-
+    user_wins = 0
+    computer_wins = 0
+    rounds_played = 0
+    while user_wins < 3 and computer_wins < 3 and rounds_played < 5:
+        countdown()
+        user_choice_prediction = get_prediction()
+        computer_choice = get_computer_choice()
+        winner = get_winner(computer_choice, user_choice_prediction)
+        if winner == "computer":
+            computer_wins += 1
+            rounds_played += 1
+        elif winner == "user":
+            user_wins += 1
+            rounds_played += 1
+        else:
+            rounds_played += 1
 play()
