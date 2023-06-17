@@ -51,7 +51,7 @@ class RockPaperScissors:
             image_np = np.array(resized_frame)
             normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
             data[0] = normalized_image
-            prediction = model.predict(data)
+            prediction = model(data)
             cv2.imshow('frame', frame)
             index = np.argmax(prediction)
             # Press q to close the window
