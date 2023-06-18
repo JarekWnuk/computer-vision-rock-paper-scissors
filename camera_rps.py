@@ -18,24 +18,49 @@ class RockPaperScissors:
     def countdown(self):
         start = time.time()
         print("Get ready!")
-        print(5)
-        time_to_print = [4, 3, 2, 1]
+        font = cv2.FONT_HERSHEY_COMPLEX
+        bottomLeftCornerOfText = (50,300)
+        fontScale = 6
+        fontColor = (0,191,255)
+        thickness = 10
+        lineType = 5
+        total = time.time() - start
         while True:
+            ret, frame = cap.read()
             total = time.time() - start
-            if total > 1 and total < 2 and 4 in time_to_print:
-                print(4)
-                time_to_print.pop(0)
-            elif total > 2 and total < 3 and 3 in time_to_print:
-                print(3)
-                time_to_print.pop(0)
-            elif total > 3 and total < 4 and 2 in time_to_print:
-                print(2)
-                time_to_print.pop(0)
-            elif total > 4 and total < 5 and 1 in time_to_print:
-                print(1)
-                time_to_print.pop(0)
+
+            if total > 0 and total < 1:
+                cv2.putText(frame,"5", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(1)
+
+            elif total > 1 and total < 2:
+                cv2.putText(frame,"4", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(1)
+
+            elif total > 2 and total < 3:
+                cv2.putText(frame,"3", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(1)
+
+            elif total > 3 and total < 4:
+                cv2.putText(frame,"2", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(1)
+
+            elif total > 4 and total < 5:
+                cv2.putText(frame,"1", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(1)
+
             elif total > 5:
-                print("Show your hand!")
+                bottomLeftCornerOfText = (10,100)
+                thickness = 8
+                fontScale = 2
+                cv2.putText(frame,"Show your hand!", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",frame)
+                cv2.waitKey(500)
                 break  
 
     # gets random choice for computer
@@ -58,7 +83,7 @@ class RockPaperScissors:
             if cv2.waitKey(1) & 0xFF == ord('q') or index !=3 and prediction[0][index] > 0.8 :
                 class_name = class_names[index]
                 break
-        return class_name
+        return class_name, frame
 
     # compares computer_choice and user_choice and prints the outcome, both arguments are required
     def get_winner(self, computer_choice, user_choice_prediction):
@@ -92,16 +117,39 @@ class RockPaperScissors:
         rounds_played = 0
         while user_wins < 3 and computer_wins < 3 and rounds_played < 5:
             self.countdown()
-            user_choice_prediction = self.get_prediction()
+            results = self.get_prediction()
+            user_choice_prediction = results[0]
+            last_frame_recorded = results[1]
             computer_choice = self.get_computer_choice()
             winner = self.get_winner(computer_choice, user_choice_prediction)
+
+            font = cv2.FONT_HERSHEY_COMPLEX
+            bottomLeftCornerOfText = (10,100)
+            thickness = 8
+            fontScale = 2
+            fontColor = (0,191,255)
+            thickness = 10
+            lineType = 5
+
             if winner == "computer":
+
+                cv2.putText(last_frame_recorded,f"You lost! Press any key to continue.", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",last_frame_recorded)
+                cv2.waitKey(0)
                 computer_wins += 1
                 rounds_played += 1
             elif winner == "user":
+                
+                cv2.putText(last_frame_recorded,f"You win! Press any key to continue.", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",last_frame_recorded)
+                cv2.waitKey(0)
                 user_wins += 1
                 rounds_played += 1
             else:
+
+                cv2.putText(last_frame_recorded,f"It is a tie! Press any key to continue.", bottomLeftCornerOfText, font, fontScale, fontColor, thickness, lineType)
+                cv2.imshow("frame",last_frame_recorded)
+                cv2.waitKey(0)
                 rounds_played += 1
         if computer_wins == 3:
             print("You lost 3 games!")
