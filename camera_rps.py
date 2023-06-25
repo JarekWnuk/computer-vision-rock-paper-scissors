@@ -149,7 +149,7 @@ class RockPaperScissors:
                 self.rounds_played += 1
             elif winner == "user":
                 
-                cv2.putText(last_frame_recorded,"You win! Press any key to continue.", org, font, fontScale, fontColor, thickness, lineType)
+                cv2.putText(last_frame_recorded,"You win!", org, font, fontScale, fontColor, thickness, lineType)
                 cv2.putText(last_frame_recorded,f"{user_choice_prediction} beats {computer_choice}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
                 cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
                 cv2.imshow("frame",last_frame_recorded)
@@ -168,21 +168,25 @@ class RockPaperScissors:
 
         if computer_wins == 3:
             print("You lost 3 games!")
-            cv2.putText(results[1],"You lost the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
-            cv2.imshow("frame",results[1])
+            ret, frame = cap.read()
+            cv2.putText(frame,"You lost the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
+            cv2.imshow("frame",frame)
             cv2.waitKey(0)
 
         elif user_wins == 3:
             print("You won 3 games!")
-            cv2.putText(results[1],"You won the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
-            cv2.imshow("frame",results[1])
+            ret, frame = cap.read()
+            cv2.putText(frame,"You won the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
+            cv2.imshow("frame",frame)
             cv2.waitKey(0)
 
         elif self.rounds_played == self.rounds:
             print(f"You have reached {self.rounds} rounds wihout a winner!")
             print(f"You won {user_wins} games. \nComputer won {computer_wins} games.")
-            cv2.putText(results[1],f"No winner in {self.rounds} rounds ! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
-            cv2.imshow("frame",results[1])
+            ret, frame = cap.read()
+            cv2.putText(frame,f"No winner in {self.rounds} rounds !", org, font, fontScale, fontColor, thickness, lineType)
+            cv2.putText(frame,"Press any key to exit.", (50, 150), font, fontScale, fontColor, thickness, lineType)
+            cv2.imshow("frame",frame)
             cv2.waitKey(0)
 
 five_round_rps = RockPaperScissors(5)
