@@ -13,17 +13,15 @@ if __name__ == "__main__":
 
     class RockPaperScissors:
 
-        def __init__(self, rounds):
+        def __init__(self, rounds=3):
             self.rounds = rounds
             self.rounds_played = 0
 
-        # counts down from 5 to 1 with each number printed        
+        # counts down from 5 to 1 with each number printed and announces round number       
         def countdown(self):
 
             #start counting time
             start = time.time()
-
-            print(f"Round {self.rounds_played + 1}!")
 
             #font set up
             font = cv2.FONT_HERSHEY_COMPLEX
@@ -66,6 +64,7 @@ if __name__ == "__main__":
                     cv2.waitKey(1)
 
                 elif total > 5:
+                    print(f"Round {self.rounds_played + 1}!")
                     org = (50, 100)
                     cv2.putText(frame,f"Round {self.rounds_played + 1}!", org, font, fontScale, fontColor, thickness, lineType)
                     cv2.imshow("frame",frame)
@@ -141,7 +140,6 @@ if __name__ == "__main__":
                 lineType = cv2.LINE_AA
 
                 if winner == "computer":
-
                     cv2.putText(last_frame_recorded,"You lost!", org, font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,f"{computer_choice} beats {user_choice_prediction}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
@@ -149,8 +147,8 @@ if __name__ == "__main__":
                     cv2.waitKey(0)
                     computer_wins += 1
                     self.rounds_played += 1
+
                 elif winner == "user":
-                    
                     cv2.putText(last_frame_recorded,"You win!", org, font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,f"{user_choice_prediction} beats {computer_choice}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
@@ -158,8 +156,8 @@ if __name__ == "__main__":
                     cv2.waitKey(0)
                     user_wins += 1
                     self.rounds_played += 1
-                else:
 
+                else:
                     cv2.putText(last_frame_recorded,"It is a tie!", org, font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,f"Both hands show {user_choice_prediction}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
                     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
