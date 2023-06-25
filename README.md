@@ -50,43 +50,43 @@ The game has been integrated with the model in file camera_rps.py and finished.
 Fuctionality added:
 
 - The game works only if the file is ran directly:
-
+'''python
     if __name__ == "__main__":  
-
+'''
 - All functions are now methods of the RockPaperScissors class.
 
 - The number of rounds to play defaults to 3, but can be passed when creating an instance of the game class:
-
+'''python
     five_round_rps = RockPaperScissors(5)
-
+'''
 - The countdown() method displays numbers from 5 to 1 in the camera view and then announces the round number.
 
   With the use of the time module it is possible to start recording time and calculate the total time elapsed:
 
 
-
+'''python
     start = time.time()
 
     total = time.time() - start
-
+'''
 
   Each number is displayed to the camera view for a duration of one second. Example for number 3:
 
   ![alt text](3.png)
 
 
-
+'''python
     elif total > 2 and total < 3:
         cv2.putText(frame,"3", org, font, fontScale, fontColor, thickness, lineType)
         cv2.imshow("frame",frame)
         cv2.waitKey(1)
-
+'''
 
   If the time elapsed is more than 5 seconds (countdown reaches 0) then number of the round is displayed in the camera view and printed to the terminal.
   
   This part also includes a "break" statement to stop the infinite While loop:
 
-
+'''python
     elif total > 5:
         print(f"Round {self.rounds_played + 1}!")
         org = (50, 100)
@@ -94,7 +94,7 @@ Fuctionality added:
         cv2.imshow("frame",frame)
         cv2.waitKey(500)
         break  
-
+'''
 
   Here the delay is set to 500 miliseconds to allow the player to see the round number.
 
@@ -102,7 +102,7 @@ Fuctionality added:
 
 - The play() method uses all game functionality to initiate gameplay. Game ends eiher if the number of wins of either the player or computer reaches 3 or number of rounds played reaches the defined number:
 
-
+'''python
     while user_wins < 3 and computer_wins < 3 and self.rounds_played < self.rounds:
         self.countdown()
         results = self.get_prediction()
@@ -110,7 +110,7 @@ Fuctionality added:
         computer_choice = self.get_computer_choice()
         winner = self.get_winner(computer_choice, user_choice_prediction)
         last_frame_recorded = results[1]
-
+'''
   
   "results[0]" is the class name returned from get_prediction() ("Rock", "Paper", "Scissors" or "Nothing").
 
@@ -121,14 +121,14 @@ Fuctionality added:
     ![alt text](two_rocks.png)
 
 
-
+'''python
     cv2.putText(last_frame_recorded,"It is a tie!", org, font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,f"Both hands show {user_choice_prediction}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
     cv2.imshow("frame",last_frame_recorded)
     cv2.waitKey(0)
     self.rounds_played += 1
-
+'''
 
 
   To improve user experience the game stops until a key is pressed. 
@@ -138,7 +138,7 @@ Fuctionality added:
   Finally the winner of the whole game (if any) is announced to the camera image. In case there is no winner, the breakdown of wins is printed to the terminal:
 
 
-
+'''python
     elif self.rounds_played == self.rounds:
         print(f"You have reached {self.rounds} rounds wihout a winner!")
         print(f"You won {user_wins} games. \nComputer won {computer_wins} games.")
@@ -147,7 +147,7 @@ Fuctionality added:
         cv2.putText(frame,"Press any key to exit.", (50, 150), font, fontScale, fontColor, thickness, lineType)
         cv2.imshow("frame",frame)
         cv2.waitKey(0)
-
+'''
 
 
 # Conclusion
