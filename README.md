@@ -67,12 +67,14 @@ Fuctionality added:
 
     total = time.time() - start
 
-  Each number is displayed to the camera view for a duration of one second. Example for number 5:
+  Each number is displayed to the camera view for a duration of one second. Example for number 3:
 
-    if total > 0 and total < 1:
-        cv2.putText(frame,"5", org, font, fontScale, fontColor, thickness, lineType)
+  ![alt text](3.png)
+
+    elif total > 2 and total < 3:
+        cv2.putText(frame,"3", org, font, fontScale, fontColor, thickness, lineType)
         cv2.imshow("frame",frame)
-        cv2.waitKey(2)
+        cv2.waitKey(1)
 
   If the time elapsed is more than 5 seconds (countdown reaches 0) then number of the round is displayed in the camera view and printed to the terminal.
   
@@ -105,7 +107,9 @@ Fuctionality added:
   "results[1]" is the last recorded frame returned from get_prediction().
 
   The program checks who won the round and announces the winner both in the terminal and camera view. It also recognizes ties, for example:
-                  
+
+    ![alt text](two_rocks.png)
+
     cv2.putText(last_frame_recorded,"It is a tie!", org, font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,f"Both hands show {user_choice_prediction}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
@@ -129,6 +133,8 @@ Fuctionality added:
     cv2.waitKey(0)
 
 
-
-
-
+# Conclusion
+The game works as expected in most scenarios. However, there are issues with getting incorrect predictions from the get_prediction() method.
+This is most likely due to the model not being trained well enough. After several training attempts the issue still remains. 
+The countdown and other messages sent to the camera view are very useful and improve the game experience. 
+Further improvements could include a welcome screen and an option to repeat the game when it has finished.
