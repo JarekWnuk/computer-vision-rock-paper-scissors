@@ -63,22 +63,29 @@ Fuctionality added:
 
   With the use of the time module it is possible to start recording time and calculate the total time elapsed:
 
+'''
+
     start = time.time()
 
     total = time.time() - start
 
+'''
   Each number is displayed to the camera view for a duration of one second. Example for number 3:
 
   ![alt text](3.png)
+
+'''
 
     elif total > 2 and total < 3:
         cv2.putText(frame,"3", org, font, fontScale, fontColor, thickness, lineType)
         cv2.imshow("frame",frame)
         cv2.waitKey(1)
 
+'''
   If the time elapsed is more than 5 seconds (countdown reaches 0) then number of the round is displayed in the camera view and printed to the terminal.
   
   This part also includes a "break" statement to stop the infinite While loop:
+'''
 
     elif total > 5:
         print(f"Round {self.rounds_played + 1}!")
@@ -88,20 +95,23 @@ Fuctionality added:
         cv2.waitKey(500)
         break  
 
+'''
   Here the delay is set to 500 miliseconds to allow the player to see the round number.
 
 - The get_prediction() method now also returns the final frame captured from the camera when the prediction is made.
 
 - The play() method uses all game functionality to initiate gameplay. Game ends eiher if the number of wins of either the player or computer reaches 3 or number of rounds played reaches the defined number:
+'''
 
-            while user_wins < 3 and computer_wins < 3 and self.rounds_played < self.rounds:
-                self.countdown()
-                results = self.get_prediction()
-                user_choice_prediction = results[0]
-                computer_choice = self.get_computer_choice()
-                winner = self.get_winner(computer_choice, user_choice_prediction)
-                last_frame_recorded = results[1]
-  
+    while user_wins < 3 and computer_wins < 3 and self.rounds_played < self.rounds:
+        self.countdown()
+        results = self.get_prediction()
+        user_choice_prediction = results[0]
+        computer_choice = self.get_computer_choice()
+        winner = self.get_winner(computer_choice, user_choice_prediction)
+        last_frame_recorded = results[1]
+
+'''  
   "results[0]" is the class name returned from get_prediction() ("Rock", "Paper", "Scissors" or "Nothing").
 
   "results[1]" is the last recorded frame returned from get_prediction().
@@ -110,6 +120,8 @@ Fuctionality added:
 
     ![alt text](two_rocks.png)
 
+'''
+
     cv2.putText(last_frame_recorded,"It is a tie!", org, font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,f"Both hands show {user_choice_prediction}!", (50, 150), font, fontScale, fontColor, thickness, lineType)
     cv2.putText(last_frame_recorded,"Press any key to continue.", (50, 200), font, fontScale, fontColor, thickness, lineType)
@@ -117,12 +129,15 @@ Fuctionality added:
     cv2.waitKey(0)
     self.rounds_played += 1
 
+'''
 
   To improve user experience the game stops until a key is pressed. 
 
   Each outcome results in a incrementation of wins for the winner (if not a tie) and number of played rounds.
 
   Finally the winner of the whole game (if any) is announced to the camera image. In case there is no winner, the breakdown of wins is printed to the terminal:
+
+'''
 
     elif self.rounds_played == self.rounds:
         print(f"You have reached {self.rounds} rounds wihout a winner!")
@@ -133,6 +148,7 @@ Fuctionality added:
         cv2.imshow("frame",frame)
         cv2.waitKey(0)
 
+'''
 
 # Conclusion
 The game works as expected in most scenarios. However, there are issues with getting incorrect predictions from the get_prediction() method.
