@@ -50,9 +50,12 @@ The game has been integrated with the model in file camera_rps.py and finished.
 Fuctionality added:
 
 - The game works only if the file is ran directly:
-'''python
-    if __name__ == "__main__":  
-'''
+
+    '''
+
+    if __name__ == "__main__": 
+
+    '''
 - All functions are now methods of the RockPaperScissors class.
 
 - The number of rounds to play defaults to 3, but can be passed when creating an instance of the game class:
