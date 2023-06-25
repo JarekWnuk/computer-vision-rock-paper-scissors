@@ -124,13 +124,14 @@ Fuctionality added:
 
   Finally the winner of the whole game (if any) is announced to the camera image. In case there is no winner, the breakdown of wins is printed to the terminal:
 
-    print(f"You have reached {self.rounds} rounds wihout a winner!")
-    print(f"You won {user_wins} games. \nComputer won {computer_wins} games.")
-    ret, frame = cap.read()
-    cv2.putText(frame,f"No winner in {self.rounds} rounds !", org, font, fontScale, fontColor, thickness, lineType)
-    cv2.putText(frame,"Press any key to exit.", (50, 150), font, fontScale, fontColor, thickness, lineType)
-    cv2.imshow("frame",frame)
-    cv2.waitKey(0)
+    elif self.rounds_played == self.rounds:
+        print(f"You have reached {self.rounds} rounds wihout a winner!")
+        print(f"You won {user_wins} games. \nComputer won {computer_wins} games.")
+        ret, frame = cap.read()
+        cv2.putText(frame,f"No winner in {self.rounds} rounds !", org, font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(frame,"Press any key to exit.", (50, 150), font, fontScale, fontColor, thickness, lineType)
+        cv2.imshow("frame",frame)
+        cv2.waitKey(0)
 
 
 # Conclusion
