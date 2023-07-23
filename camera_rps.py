@@ -5,15 +5,21 @@ import numpy as np
 import random
 
 model = load_model('keras_model.h5')
-cap = cv2.VideoCapture(0)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-class_names = open("labels.txt", "r").read().splitlines()
+cap = cv2.VideoCapture(0)
 
 class RockPaperScissors:
 
     def __init__(self, rounds=3):
         self.rounds = rounds
         self.rounds_played = 0
+        self.choices = self.get_choice_list()
+
+    def get_choice_list(self):
+        with open("labels.txt", "r") as f:
+            class_names = f.read().splitlines()
+            f.close()
+            return class_names
 
     # counts down from 5 to 1 with each number printed and announces round number       
     def countdown(self):
@@ -71,12 +77,12 @@ class RockPaperScissors:
 
     # gets random choice for computer
     def get_computer_choice(self):
-        choice_list =["Rock", "Paper", "Scissors"]
+        choice_list = self.choices[:3]
         return random.choice(choice_list)
 
     def get_prediction(self):
-        while True: 
 
+        while True: 
             ret, frame = cap.read()
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
@@ -87,7 +93,7 @@ class RockPaperScissors:
             index = np.argmax(prediction)
             # Press q to close the window
             if cv2.waitKey(1) & 0xFF == ord('q') or index !=3 and prediction[0][index] > 0.8 :
-                class_name = class_names[index]
+                class_name = self.choices[index]
                 break
         return class_name, frame
 
@@ -95,22 +101,27 @@ class RockPaperScissors:
     def get_winner(self, computer_choice, user_choice_prediction):
         winner = ""
         if computer_choice != user_choice_prediction:
+
             if computer_choice == "Rock" and user_choice_prediction != "Paper":
                 print(f"You lost. Rock beats {user_choice_prediction}")
                 winner = "computer"
                 return winner
+            
             elif computer_choice == "Paper" and user_choice_prediction != "Scissors":
                 print(f"You lost. Paper beats {user_choice_prediction}")
                 winner = "computer"
                 return winner
+            
             elif computer_choice == "Scissors" and user_choice_prediction != "Rock":
                 print(f"You lost. Scissors beats {user_choice_prediction}")
                 winner = "computer"
                 return winner
+            
             else:
                 print(f"You won! {user_choice_prediction} beats {computer_choice}")
                 winner = "user"
                 return winner
+            
         else:
                 print(f"It is a tie! Both hands show {user_choice_prediction}")
                 winner = "nobody"
