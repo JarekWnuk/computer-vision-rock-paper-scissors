@@ -4,16 +4,14 @@ from keras.models import load_model
 import numpy as np
 import random
 
-model = load_model('keras_model.h5')
-data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-cap = cv2.VideoCapture(0)
-
 class RockPaperScissors:
 
     def __init__(self, rounds=3):
         self.rounds = rounds
         self.rounds_played = 0
         self.choices = self.get_choice_list()
+        self.cap = cv2.VideoCapture(0)
+        self.model = load_model('keras_model.h5')
 
     def get_choice_list(self):
         with open("labels.txt", "r") as f:
@@ -37,7 +35,7 @@ class RockPaperScissors:
 
         while True:
             #capture frame from camera
-            ret, frame = cap.read()
+            ret, frame = self.cap.read()
 
             #calculate total time elapsed
             total = time.time() - start
@@ -81,14 +79,14 @@ class RockPaperScissors:
         return random.choice(choice_list)
 
     def get_prediction(self):
-
+        data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
         while True: 
-            ret, frame = cap.read()
+            ret, frame = self.cap.read()
             resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
             image_np = np.array(resized_frame)
             normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
             data[0] = normalized_image
-            prediction = model(data)
+            prediction = self.model(data)
             cv2.imshow('frame', frame)
             index = np.argmax(prediction)
             # Press q to close the window
@@ -177,14 +175,14 @@ class RockPaperScissors:
 
         if computer_wins == 3:
             print("You lost 3 games!")
-            ret, frame = cap.read()
+            ret, frame = self.cap.read()
             cv2.putText(frame,"You lost the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
             cv2.imshow("frame",frame)
             cv2.waitKey(0)
 
         elif user_wins == 3:
             print("You won 3 games!")
-            ret, frame = cap.read()
+            ret, frame = self.cap.read()
             cv2.putText(frame,"You won the game! Press any key to exit.", org, font, fontScale, fontColor, thickness, lineType)
             cv2.imshow("frame",frame)
             cv2.waitKey(0)
@@ -192,7 +190,7 @@ class RockPaperScissors:
         elif self.rounds_played == self.rounds:
             print(f"You have reached {self.rounds} rounds wihout a winner!")
             print(f"You won {user_wins} games. \nComputer won {computer_wins} games.")
-            ret, frame = cap.read()
+            ret, frame = self.cap.read()
             cv2.putText(frame,f"No winner in {self.rounds} rounds !", org, font, fontScale, fontColor, thickness, lineType)
             cv2.putText(frame,"Press any key to exit.", (50, 150), font, fontScale, fontColor, thickness, lineType)
             cv2.imshow("frame",frame)
