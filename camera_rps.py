@@ -5,8 +5,20 @@ import numpy as np
 import random
 
 class RockPaperScissors:
+    '''
+    This class is used to play the rock-paper-scissors game with the use of the camera.
 
-    def __init__(self, rounds=3):
+    Attributes:
+        rounds (int): number of rounds in the game, defaults to 3
+        rounds_played (int): the number of rounds already played in the game, defaults to 0
+        choices (list): a list of hand choices returned from the get_choice_list function
+        cap (tuple): the image collected from the camera using the cv2 module as a NumPy array
+        model: the model created from keras_model.h5 file using the keras module
+    '''
+    def __init__(self, rounds:int=3):
+        '''
+        See help(RockPaperScissors) for accurate signature
+        '''
         self.rounds = rounds
         self.rounds_played = 0
         self.choices = self.get_choice_list()
@@ -14,13 +26,28 @@ class RockPaperScissors:
         self.model = load_model('keras_model.h5')
 
     def get_choice_list(self):
+        '''
+        This method is used to extract a list of hand choices from labels.txt.
+
+        Returns:
+            class_names (list): a list of names of classes contained in labels.txt (Rock, Paper, Scissors and Nothing)
+        '''
         with open("labels.txt", "r") as f:
             class_names = f.read().splitlines()
             f.close()
             return class_names
-
-    # counts down from 5 to 1 with each number printed and announces round number       
+      
     def countdown(self):
+        '''
+        This method displays a countdown from 5 to 1 to the camera and announces the round number.
+        
+        With the use of the time module the start and total elapse time is calculated. This dictates
+        which number is shown in the displayed frame. The effect is a fluent countdown with the camera
+        view still displaying in real time. The round number is shown after 5 seconds have passed.
+
+        Returns:
+            None
+        '''
 
         #start counting time
         start = time.time()
@@ -75,10 +102,28 @@ class RockPaperScissors:
 
     # gets random choice for computer
     def get_computer_choice(self):
+        '''
+        This method generates a choice of hand for the computer.
+
+        The computer choice is a random selection from the choices list excluding the last
+        item: Nothing.
+
+        Returns:
+            random item from choice_list (str): a random choice of hand from choice_list
+        '''
         choice_list = self.choices[:3]
         return random.choice(choice_list)
 
     def get_prediction(self):
+        '''
+        This method uses the loaded model to predict which hand is shown to the camera
+        by the player. 
+
+        The predicted class is accepted if the probability calculated by the model exceeds 80%.
+
+        Returns:
+            class_name (str)
+        '''
         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
         while True: 
             ret, frame = self.cap.read()
@@ -97,6 +142,16 @@ class RockPaperScissors:
 
     # compares computer_choice and user_choice and prints the outcome, both arguments are required
     def get_winner(self, computer_choice, user_choice_prediction):
+        '''
+        This method uses game rules to check who is the winner of the round.
+        
+        Args:
+            computer_choice (str): choice of hand for the computer
+            user_choice_prediction (str): choice of hand for the player
+
+        Returns:
+            winner (str): the winner of the round
+        '''
         winner = ""
         if computer_choice != user_choice_prediction:
 
@@ -125,8 +180,23 @@ class RockPaperScissors:
                 winner = "nobody"
                 return winner
 
-    # wraps all game methods into one that allows to play the game
     def play(self):
+        '''
+        This method is used to initiate gameplay.
+
+        The game is run in the following sequence:
+            1. Countdown from 5 to 1.
+            2. Get the predicted choice of hand for the player.
+            3. Generate a random choice of hand for the computer.
+            4. Check who is the winner.
+            5. Display the result to the camera image.
+        This sequence is repeated until either the player or computer get 3 wins or
+        the maximum defined number of rounds is reached.
+        Finally, the end game result is displayed to the camera image.
+        
+        Returns:
+            None
+        '''
         user_wins = 0
         computer_wins = 0
 
